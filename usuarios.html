@@ -32,40 +32,16 @@
         
         
 
-          <div class="container-fluid">
-            <div class="card">
-                <div class="container py-3">
-                  <a href="#" onclick="createArticleForm()" class="btn btn-outline-success"><i class="fa-solid fa-plus"></i> Crear Articulo</a>
-      
-                  <br>
-                  <br>
-                  <div class="row row-cols-1 row-cols-md-3 mb-3 text-center" id="listarArticle">
-                  </div>
-              </div>
-                <div class="card-body">
-                  
-                  <div id="datos"></div>
-
-                  
-                
-                    <tbody id="listar">
-
-                    </tbody>
-                  </table>
-                </div>
-            </div>
-          </div>
-
-          
           <div class="container">
             <div class="card">
+                <div class="container py-3 text-center">
+                    <div class="row row-cols-1 row-cols-md-3 mb-3" id="listarArticle">
+                    </div>
+                </div>
                 <div class="card-body">
                     <div id="datos"></div>
         
-                    <a href="#" onclick="createCategoryForm()" class="btn btn-outline-success">
-                      <i class="fa-solid fa-plus"></i> Crear Categoría
-                    </a>
-                  
+                    <a href="#" onclick="createUserForm()" class="btn btn-outline-success"><i class="fa-solid fa-user-plus"></i> Crear Usuario</a>
                     <br>
                     <br>
                     <div class="table-responsive">
@@ -74,10 +50,12 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Nombre</th>
+                                    <th scope="col">Apellido</th>
+                                    <th scope="col">Email</th>
                                     <th scope="col">Acción</th>
                                 </tr>
                             </thead>
-                            <tbody id="listarCategory">
+                            <tbody id="listar">
                                 
                             </tbody>
                         </table>
@@ -85,31 +63,33 @@
                 </div>
             </div>
         </div>
+        
+        
 
+          
+          <div class="container-fluid">
+            <div class="card">
+                <div class="card-body">
+                  
+                  <div id="datos"></div>
 
-        <!-- Modal categoria-->
-        <div class="modal fade" id="modalCategoria" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Gestión de Categorias</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body" id="contentModalCategory">
-                ...
-              </div>
+                  </table>
+                    </tbody>
+                  </table>
+                </div>
             </div>
           </div>
-        </div>
-        <!-- Modal -->
-        <div class="modal fade" id="modalArticulo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+
+        <!-- Modal usuario-->
+        <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Gestión de Articulos</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Gestión de Usuarios</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div class="modal-body" id="contentModalArticle">
+              <div class="modal-body" id="contentModal">
                 ...
               </div>
             </div>
@@ -117,16 +97,16 @@
         </div>
 
         <!-- Modal confirmacion eliminar-->
-        <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modalConfirmacionUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">¿Estás seguro de que deseas eliminar esta categoría?</h5>
+                <h5 class="modal-title">¿Estás seguro de que deseas eliminar esta Usuario?</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary" id="confirmarEliminar">Sí</button>
+                <button type="button" class="btn btn-primary" id="confirmarEliminarUsuario">Sí</button>
               </div>
             </div>
           </div>
@@ -137,9 +117,6 @@
       <script src="js/util.js"></script>
       <script src="js/auth_service.js"></script>
       <script src="js/user_crud.js"></script>
-      <script src="js/category_crud.js"></script>
-      <script src="js/article_crud.js"></script>
-      <script src="app.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
       <script>
         listar();

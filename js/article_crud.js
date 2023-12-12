@@ -5,45 +5,55 @@ const headersArticle= {
     'Authorization': `Bearer ${localStorage.token}`
 };
 
-
-function listarArticle(){
+function listarArticle() {
     validaToken();
-    var settings={
+    var settings = {
         method: 'GET',
         headers: headersArticle,
     }
     fetch(urlApiArticle, settings)
-    .then(response => response.json())
-    .then(function(articles){
-        
-            var articulos = '';
-            for(const articulo of articles){
-                articulos += `
-                <tr>
-                    <th scope="row">${articulo.id}</th>
-                    <td>${articulo.name}</td>
-                    <td>${articulo.description}</td>
-                    <td>${articulo.categoria.nameCategory}</td>
-                    <td>${articulo.price}</td>
-                    <td>${articulo.stock}</td>
-                    
-                    <td>
-                    <a href="#" onclick="verModificarArticle('${articulo.id}')" class="btn btn-outline-warning">
-                        <i class="fa-solid fa-user-pen"></i>
-                    </a>
-                    <a href="#" onclick="verArticle('${articulo.id}')" class="btn btn-outline-info">
-                        <i class="fa-solid fa-eye"></i>
-                    </a>
-                    <a href="#" onclick="eliminarArticle('${articulo.id}')" class="btn btn-outline-danger">
-                        <i class="fa-solid fa-trash"></i> 
-                    </a>
+        .then(response => response.json())
+        .then(function (articles) {
 
-                    </td>
-                </tr>`;
-                
+            var articulos = '';
+            for (const articulo of articles) {
+                articulos += `
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 rounded-3 shadow-sm">
+                        <center>
+                            <img src="./img/cel.png" style="height: 150px; width: 150px;" class="card-img-top" alt="${articulo.name}">
+                        </center>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <span style="color: black;">Nombre:</span>
+                                <span style="color: black;">${articulo.name}</span>
+                            </h5>
+                            <p class="card-text">Descripción: ${articulo.description}</p>
+                            <p class="card-text">Categoría: ${articulo.categoria.nameCategory}</p>
+                            <p class="card-text">Stock: ${articulo.stock}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <button type="button" class="btn btn-success">
+                                    <span class="card-text">$</span>
+                                    ${articulo.price}
+                                </button>
+                                <div class="btn-group">
+                                    <a href="#" onclick="verModificarArticle('${articulo.id}')" class="btn btn-outline-warning">
+                                        <i class="fa-solid fa-user-pen"></i>
+                                    </a>
+                                    <a href="#" onclick="verArticle('${articulo.id}')" class="btn btn-outline-info">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+                                    <a href="#" onclick="eliminarArticle('${articulo.id}')" class="btn btn-outline-danger">
+                                        <i class="fa-solid fa-trash"></i> 
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
             }
             document.getElementById("listarArticle").innerHTML = articulos;
-    })
+        })
 }
 
 function verModificarArticle(id) {
@@ -72,15 +82,15 @@ function verModificarArticle(id) {
                     </div>
                   
                     <form action="" method="post" id="modificar">
-                        <input type="hidden" name="idArticle" id="idArticle" value="${articulo.idArticle}">
+                        <input type="hidden" name="id" id="id" value="${articulo.id}">
 
                         <label for="name" class="form-label">Nombre articulo</label>
                         <input type="text" class="form-control" name="name" id="name" required value="${articulo.name}"> <br>
                         <label for="name" class="form-label">Descripcion</label>
                         <input type="text" class="form-control" name="description" id="description" required value="${articulo.description}"> <br>
                         
-                        <label for="idCategorySel" class="form-label">Categoría</label>
-                        <select class="form-control" name="idCategorySel" id="idCategorySel" required>
+                        <label for="idCategory" class="form-label">Categoría</label>
+                        <select class="form-control" name="idCategory" id="idCategory" required>
                         ${categorias.map(categoria => `<option value="${categoria.idCategory}" ${articulo.categoria.idCategory === categoria.idCategory ? 'selected' : ''}>${categoria.nameCategory}</option>`).join('')}
                         </select> <br>
                         
@@ -90,7 +100,7 @@ function verModificarArticle(id) {
                         <input type="text" class="form-control" name="stock" id="stock" required value="${articulo.stock}"> <br>
                         
                         <button type="button" class="btn btn-outline-warning" 
-                            onclick="modificarArticle('${articulo.idArticle}')">Modificar
+                            onclick="modificarArticle('${articulo.id}')">Modificar
                         </button>
                     </form>`;
 
@@ -110,7 +120,7 @@ async function modificarArticle(id){
     for(var [k, v] of formData){
         jsonData[k] = v;
     }
-    const request = await fetch(urlApiArticle+"/"+idArticle, {
+    const request = await fetch(urlApiArticle+"/"+id, {
         method: 'PUT',
         headers:headersArticle,
         body: JSON.stringify(jsonData)
@@ -227,7 +237,7 @@ function createArticleForm() {
                     </div>
 
                     <form action="" method="post" id="articleForm">
-                        <input type="hidden" name="idArticle" id="idArticle">
+                        <input type="hidden" name="id" id="id">
 
                         <label for="name" class="form-label">Nombre Articulo</label>
                         <input type="text" class="form-control" name="name" id="name" required> <br>
@@ -259,7 +269,7 @@ function createArticleForm() {
 }
 
 
-function eliminarArticle(idArticle) {
+function eliminarArticle(id) {
     validaToken();
 
     // Muestra el modal de confirmación
@@ -273,7 +283,7 @@ function eliminarArticle(idArticle) {
             headers: headersArticle,
         };
 
-        fetch(urlApiArticle + "/" + idArticle, settings)
+        fetch(urlApiArticle + "/" + id, settings)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Error al intentar eliminar el articulo. Código de estado: ${response.status}`);
