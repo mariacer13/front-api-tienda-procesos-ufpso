@@ -95,7 +95,7 @@ async function modificarUsuario(id){
         body: JSON.stringify(jsonData)
     });
     if(request.ok){
-        alertas("The user has been modified successfully!",1)
+        alertas("El usuario ha sido modificado!",1)
         listar();
     }
     else{
@@ -157,7 +157,7 @@ async function createUser(){
         body: JSON.stringify(jsonData)
     });
     if(request.ok){
-        alertas("User created", 1);
+        alertas("Usuario Creada", 1);
         listar();
     }
     else{
@@ -223,6 +223,6 @@ function eliminarUsuario(id){
     .then(response => response.json())
     .then(function(data){
         listar();
-        alertas("The user has been deleted successfully!",2)
+        alertas("El usuario ha sido eliminado!",2)
     })
 }

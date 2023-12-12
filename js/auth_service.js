@@ -50,7 +50,7 @@ async function registrarUsuario(){
         body: JSON.stringify(jsonData)
     });
     if(request.ok){
-        alertas("User registered", 1)
+        alertas("Usuario Registrado", 1)
     }
     else{
         const data = await request.json(); // Espera a que la promesa se resuelva

@@ -89,8 +89,8 @@ function verModificarArticle(id) {
                         <label for="name" class="form-label">Descripcion</label>
                         <input type="text" class="form-control" name="description" id="description" required value="${articulo.description}"> <br>
                         
-                        <label for="idCategory" class="form-label">Categoría</label>
-                        <select class="form-control" name="idCategory" id="idCategory" required>
+                        <label for="idCategorySel" class="form-label">Categoría</label>
+                        <select class="form-control" name="idCategorySel" id="idCategorySel" required>
                         ${categorias.map(categoria => `<option value="${categoria.idCategory}" ${articulo.categoria.idCategory === categoria.idCategory ? 'selected' : ''}>${categoria.nameCategory}</option>`).join('')}
                         </select> <br>
                         
@@ -107,6 +107,10 @@ function verModificarArticle(id) {
                     document.getElementById("contentModalArticle").innerHTML = cadena;
                     var myModal = new bootstrap.Modal(document.getElementById('modalArticulo'))
                     myModal.toggle();
+                    
+                    
+
+                    
                 });
         })
 }
@@ -114,12 +118,15 @@ function verModificarArticle(id) {
 
 async function modificarArticle(id){
     validaToken();
+    console.log("ID del artículo a modificar:", id);
+    //var idCategorySel2 = document.getElementById("idCategorySel").value;
     var myForm = document.getElementById("modificar");
     var formData = new FormData(myForm);
     var jsonData = {};
     for(var [k, v] of formData){
         jsonData[k] = v;
     }
+    console.log("Cuerpo de la solicitud PUT:", JSON.stringify(jsonData));
     const request = await fetch(urlApiArticle+"/"+id, {
         method: 'PUT',
         headers:headersArticle,
@@ -127,7 +134,7 @@ async function modificarArticle(id){
     });
     if(request.ok){
         alertas("¡Articulo Modificado!",1)
-        listarArticle();
+        await listarArticle();
     }
     else{
         const data = await request.json(); 
@@ -216,6 +223,8 @@ async function createArticle(){
     var modal = bootstrap.Modal.getInstance(myModalEl) // Returns a Bootstrap modal instance
     modal.hide();
 }
+
+
 function createArticleForm() {
     validaToken();
     const urlApiCategory = "http://localhost:8080/categorias";
@@ -291,9 +300,10 @@ function eliminarArticle(id) {
                 return response.text().then(text => text ? JSON.parse(text) : {});
             })
             .then(function (data) {
-                listarArticle();
-                alertas("Articulo eliminada!", 2);
+                
+                alertas("Articulo eliminado!", 2);
                 confirmacionModal.hide(); // Oculta el modal después de la eliminación
+                listarArticle();
             })
             .catch(function (error) {
                 console.error('Error al intentar eliminar el articulo:', error);
